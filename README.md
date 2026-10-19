@@ -1,5 +1,7 @@
 # igreels
 
+**[Open the live Reels demo](https://sydjj1225tc.github.io/igreels/)**
+
 A student HTML/CSS/JavaScript prototype exploring scrolling and deliberate pauses in a Reels-style interface.
 
 ## Try it
