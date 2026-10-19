@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Reels · A moment to choose</title>
+<style>
+* { box-sizing: border-box; }
+body { margin: 0; background: #151617; color: white; font-family: Arial, sans-serif; }
+main { height: 100vh; height: 100svh; }
+#feed { height: 100%; overflow-y: auto; scroll-snap-type: y mandatory; scrollbar-width: none; overscroll-behavior-y: contain; }
+#feed::-webkit-scrollbar { display: none; }
+#feed:focus-visible { outline: 2px solid #a5bbaa; outline-offset: -2px; }
+.screen { position: relative; height: 100%; min-height: 560px; max-width: 440px; margin: auto; overflow: hidden; scroll-snap-align: start; scroll-snap-stop: always; }
+.photo { position: absolute; width: 100%; height: 100%; object-fit: cover; }
+.shade { position: absolute; inset: 0; background: linear-gradient(#0006, transparent 25%, transparent 42%, #000c 100%); }
+.top { position: absolute; top: 0; left: 0; right: 0; padding: 24px 22px; display: flex; align-items: center; justify-content: space-between; }
+.top strong { font-size: 25px; letter-spacing: -.7px; }
+svg { width: 27px; height: 27px; display: block; }
+.headline { position: absolute; left: 26px; right: 55px; top: 22%; font-size: clamp(28px, 7vw, 38px); line-height: 1.08; letter-spacing: -1px; font-weight: 700; text-shadow: 0 2px 20px #0005; max-width: 285px; }
+.caption { position: absolute; left: 22px; right: 76px; bottom: 56px; font-size: 13px; line-height: 1.5; }
+.creator { display: flex; align-items: center; gap: 9px; font-size: 14px; }
+.avatar { width: 30px; height: 30px; border: 1px solid #ffffffb0; border-radius: 50%; display: grid; place-items: center; background: #343d35; font-family: Georgia, serif; }
+.caption p { margin: 12px 0; }
+.audio { font-size: 11px; opacity: .9; }
+.rail { position: absolute; bottom: 86px; right: 17px; display: grid; gap: 23px; text-align: center; font-size: 11px; }
+.rail svg { margin: 0 auto 6px; }
+.rail .more { font-size: 22px; letter-spacing: 3px; }
+.bottom { position: absolute; bottom: 0; left: 22px; right: 22px; height: 37px; border-top: 1px solid #ffffff50; display: flex; align-items: center; justify-content: space-between; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; }
+.pause { background: #dcebdc; color: #243e30; padding: 32px; display: flex; align-items: center; justify-content: center; }
+.pause-center { width: 100%; max-width: 320px; text-align: center; }
+.pause-symbol { width: 88px; height: 88px; border-radius: 50%; background: #c2dac5; display: flex; align-items: center; justify-content: center; gap: 8px; margin: 0 auto 36px; }
+.pause-symbol span { width: 7px; height: 26px; background: #365b42; border-radius: 3px; }
+.pause h1 { font-family: Arial, sans-serif; font-size: clamp(28px, 7.5vw, 34px); font-weight: 700; letter-spacing: -0.4px; line-height: 1.25; margin: 8px 0 24px; }
+.description { font-size: 16px; line-height: 1.65; color: #4c6654; margin: 0 0 32px; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+#feed.locked { overflow: hidden; }
+#feed.locked .reel { visibility: hidden; }
+#feed.locked .pause { position: fixed; inset: 0; z-index: 5; height: 100%; min-height: 0; overflow-y: auto; }
+.hold-button { position: relative; width: 100%; min-height: 54px; margin-top: 22px; border: 0; border-radius: 28px; background: #34553f; color: white; font: 600 15px Arial, sans-serif; overflow: hidden; cursor: pointer; touch-action: none; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
+.hold-button::before { content: ''; position: absolute; inset: 0; background: #52765a; transform: scaleX(var(--progress, 0)); transform-origin: left; }
+.hold-button span { position: relative; pointer-events: none; }
+.hold-button:focus-visible { outline: 3px solid #52765a; outline-offset: 4px; }
+.hold-help { font-size: 11px; line-height: 1.5; color: #4c6654; margin: 14px 0 0; }
+</style></head>
+<body><main><div id="feed" tabindex="0" aria-label="Five Reel stills followed by a pause cue. Scroll or use arrow keys to move through the Reels.">
+<section class="screen reel" aria-label="Reel 1 of 5">
+ <img class="photo" src="assets/matcha.png" alt="A little ritual, one pour at a time." loading="eager">
+ <div class="shade"></div>
+ <div class="top"><strong>Reels⌄</strong><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="15" rx="4"/><circle cx="12" cy="12.5" r="4"/><path d="m8 5 1-2h6l1 2"/></svg></div>
+ <div class="headline">The best part of the morning. 🍵</div>
+ <div class="caption"><div class="creator"><span class="avatar">s</span><strong>slow.mornings</strong></div><p>A little ritual, one pour at a time.</p><span class="audio">♫ &nbsp; slow.mornings · Original audio</span></div>
+ <div class="rail" aria-hidden="true"><div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg>12.4K</div><div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a9 9 0 1 1-4-7.5 9 9 0 0 1 4 7.5Z"/><path d="m17 19 4 2-1-5"/></svg>128</div><div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m22 2-7 20-4-9-9-4Z"/><path d="m22 2-11 11"/></svg></div><div class="more">···</div></div>
+ <div class="bottom"><span>Scroll up ↑</span><span>01 / 05</span></div>
+ </section>
+<section class="screen reel" aria-label="Reel 2 of 5">
+ <img class="photo" src="assets/surf.png" alt="Chasing the last light." loading="lazy">
+ <div class="shade"></div>
+ <div class="top"><strong>Reels⌄</strong><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="15" rx="4"/><circle cx="12" cy="12.5" r="4"/><path d="m8 5 1-2h6l1 2"/></svg></div>
+ <div class="headline">A slower kind of rush.</div>
+ <div class="caption"><div class="creator"><span class="avatar">c</span><strong>coastal.days</strong></div><p>Chasing the last light.</p><span class="audio">♫ &nbsp; coastal.days · Original audio</span></div>
+ <div class="rail" aria-hidden="true"><div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg>8,621</div><div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a9 9 0 1 1-4-7.5 9 9 0 0 1 4 7.5Z"/><path d="m17 19 4 2-1-5"/></svg>94</div><div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m22 2-7 20-4-9-9-4Z"/><path d="m22 2-11 11"/></svg></div><div class="more">···</div></div>
+ <div class="bottom"><span>Scroll up ↑</span><span>02 / 05</span></div>
+ </section>
+<section class="screen reel" aria-label="Reel 3 of 5">
+ <img class="photo" src="assets/clay.png" alt="From a lump of clay to something worth keeping." loading="lazy">
+ <div class="shade"></div>
+ <div class="top"><strong>Reels⌄</strong><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="15" rx="4"/><circle cx="12" cy="12.5" r="4"/><path d="m8 5 1-2h6l1 2"/></svg></div>
+ <div class="headline">Trust the process.</div>
+ <div class="caption"><div class="creator"><span class="avatar">s</span><strong>studio.earth</strong></div><p>From a lump of clay to something worth keeping.</p><span class="audio">♫ &nbsp; studio.earth · Original audio</span></div>
+ <div class="rail" aria-hidden="true"><div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg>23.1K</div><div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a9 9 0 1 1-4-7.5 9 9 0 0 1 4 7.5Z"/><path d="m17 19 4 2-1-5"/></svg>206</div><div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m22 2-7 20-4-9-9-4Z"/><path d="m22 2-11 11"/></svg></div><div class="more">···</div></div>
+ <div class="bottom"><span>Scroll up ↑</span><span>03 / 05</span></div>
+ </section>
+<section class="screen reel" aria-label="Reel 4 of 5">
+ <img class="photo" src="assets/corgi.png" alt="Your daily dose of a very good day." loading="lazy">
+ <div class="shade"></div>
+ <div class="top"><strong>Reels⌄</strong><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="15" rx="4"/><circle cx="12" cy="12.5" r="4"/><path d="m8 5 1-2h6l1 2"/></svg></div>
+ <div class="headline">No thoughts. Just sunshine.</div>
+ <div class="caption"><div class="creator"><span class="avatar">l</span><strong>little.paws</strong></div><p>Your daily dose of a very good day.</p><span class="audio">♫ &nbsp; little.paws · Original audio</span></div>
+ <div class="rail" aria-hidden="true"><div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg>41.8K</div><div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a9 9 0 1 1-4-7.5 9 9 0 0 1 4 7.5Z"/><path d="m17 19 4 2-1-5"/></svg>312</div><div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m22 2-7 20-4-9-9-4Z"/><path d="m22 2-11 11"/></svg></div><div class="more">···</div></div>
+ <div class="bottom"><span>Scroll up ↑</span><span>04 / 05</span></div>
+ </section>
+<section class="screen reel" aria-label="Reel 5 of 5">
+ <img class="photo" src="assets/city.png" alt="Sometimes the long way home is the right one." loading="lazy">
+ <div class="shade"></div>
+ <div class="top"><strong>Reels⌄</strong><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="15" rx="4"/><circle cx="12" cy="12.5" r="4"/><path d="m8 5 1-2h6l1 2"/></svg></div>
+ <div class="headline">The city, after the rain.</div>
+ <div class="caption"><div class="creator"><span class="avatar">a</span><strong>after.hours</strong></div><p>Sometimes the long way home is the right one.</p><span class="audio">♫ &nbsp; after.hours · Original audio</span></div>
+ <div class="rail" aria-hidden="true"><div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></svg>6,204</div><div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a9 9 0 1 1-4-7.5 9 9 0 0 1 4 7.5Z"/><path d="m17 19 4 2-1-5"/></svg>87</div><div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m22 2-7 20-4-9-9-4Z"/><path d="m22 2-11 11"/></svg></div><div class="more">···</div></div>
+ <div class="bottom"><span>Scroll up ↑</span><span>05 / 05</span></div>
+ </section>
+<section class="screen pause" id="pause" aria-labelledby="pause-title">
+ <div class="pause-center">
+   <div class="pause-symbol" aria-hidden="true"><span></span><span></span></div>
+   <h1 id="pause-title">Take a moment.</h1>
+   <p class="description">You already watched 5 reels.<br>Do you really want to keep watching?</p>
+   <button class="hold-button" id="hold-button" type="button" aria-describedby="hold-help keyboard-help"><span id="hold-label">Hold to continue · 10s</span></button>
+   <p class="hold-help" id="hold-help">Release to reset.</p>
+   <span class="sr-only" id="keyboard-help">Hold Space or Enter for 10 seconds to continue.</span>
+ </div>
+ </section>
+ </div></main>
+ <script>
+
+ // This is a fixed pause rule, not an AI assessment of addiction or flow.
+ const feed = document.getElementById('feed');
+ const pause = document.getElementById('pause');
+ const button = document.getElementById('hold-button');
+ const label = document.getElementById('hold-label');
+ const holdDuration = 10000;
+ let locked = false;
+ let holding = false;
+ let startedAt = 0;
+ let frame = 0;
+ let input = null;
+
+ function resetHold() {
+   holding = false;
+   input = null;
+   cancelAnimationFrame(frame);
+   button.style.setProperty('--progress', 0);
+   label.textContent = 'Hold to continue · 10s';
+ }
+
+ function updateHold() {
+   if (!holding) return;
+   const elapsed = performance.now() - startedAt;
+   button.style.setProperty('--progress', Math.min(elapsed / holdDuration, 1));
+   label.textContent = 'Keep holding · ' + Math.ceil(Math.max(0, holdDuration - elapsed) / 1000) + 's';
+   if (elapsed >= holdDuration) {
+     resetHold();
+     locked = false;
+     feed.classList.remove('locked');
+     // Reuse the five existing Reels for the next viewing cycle.
+     feed.scrollTop = 0;
+     feed.focus({ preventScroll: true });
+   } else {
+     frame = requestAnimationFrame(updateHold);
+   }
+ }
+
+ function startHold(source) {
+   if (!locked || holding) return;
+   holding = true;
+   input = source;
+   startedAt = performance.now();
+   updateHold();
+ }
+
+ feed.addEventListener('scroll', function () {
+   if (!locked && feed.scrollTop >= pause.offsetTop - 2) {
+     locked = true;
+     feed.classList.add('locked');
+     button.focus({ preventScroll: true });
+   }
+ });
+
+ button.addEventListener('pointerdown', function (event) {
+   if (event.button !== 0 || !event.isPrimary) return;
+   event.preventDefault();
+   button.setPointerCapture(event.pointerId);
+   startHold('pointer');
+ });
+ button.addEventListener('pointermove', function (event) {
+   if (input !== 'pointer') return;
+   const box = button.getBoundingClientRect();
+   if (event.clientX < box.left || event.clientX > box.right || event.clientY < box.top || event.clientY > box.bottom) resetHold();
+ });
+ for (const eventName of ['pointerup', 'pointercancel', 'lostpointercapture']) {
+   button.addEventListener(eventName, function () { if (input === 'pointer') resetHold(); });
+ }
+ button.addEventListener('contextmenu', function (event) { event.preventDefault(); });
+ button.addEventListener('keydown', function (event) {
+   if (event.key === ' ' || event.key === 'Enter') {
+     event.preventDefault();
+     if (!event.repeat) startHold(event.key);
+   }
+ });
+ button.addEventListener('keyup', function (event) {
+   if (event.key === input) resetHold();
+ });
+ button.addEventListener('blur', resetHold);
+ window.addEventListener('blur', resetHold);
+ document.addEventListener('visibilitychange', function () { if (document.hidden) resetHold(); });
+ feed.focus({ preventScroll: true });
+ </script>
+ </body></html>

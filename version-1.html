@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reels — a moment to choose</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #131316; color: white; font-family: Arial, sans-serif; }
+    main { max-width: 440px; height: 100svh; margin: auto; position: relative; background: #202025; }
+    header { position: absolute; top: 0; left: 0; right: 0; z-index: 2; padding: 24px; display: flex; justify-content: space-between; background: linear-gradient(#0008, transparent); pointer-events: none; }
+    header strong { font-size: 24px; letter-spacing: -1px; }
+    header span { font-size: 14px; padding-top: 6px; }
+    #feed { height: 100%; overflow-y: auto; scroll-snap-type: y mandatory; scrollbar-width: none; }
+    #feed::-webkit-scrollbar { display: none; }
+    #feed:focus-visible { outline: 3px solid #e6ff89; outline-offset: -3px; }
+    .reel, .pause { height: 100%; min-height: 420px; scroll-snap-align: start; scroll-snap-stop: always; position: relative; overflow: hidden; }
+    .reel { display: flex; align-items: center; justify-content: center; }
+    .one { background: #6251ac; }
+    .two { background: #216e73; }
+    .three { background: #ac563d; }
+    .art { width: 220px; height: 220px; border: 32px solid #ffffff65; border-radius: 50%; box-shadow: 0 0 0 40px #ffffff12, 0 0 0 80px #ffffff08; }
+    .two .art { border-radius: 35px; transform: rotate(30deg); }
+    .three .art { border-radius: 50% 50% 15% 15%; transform: rotate(-20deg); }
+    .caption { position: absolute; bottom: 38px; left: 24px; right: 24px; }
+    .caption p { font-size: 13px; letter-spacing: 2px; text-transform: uppercase; opacity: .8; }
+    .caption h1 { font-size: 32px; margin: 10px 0; font-weight: 500; }
+    .caption span { font-size: 14px; opacity: .85; }
+    .pause { background: #e6ff89; color: #18210c; display: flex; align-items: center; padding: 32px; }
+    .pause-content { visibility: hidden; }
+    .pause.visible .pause-content { visibility: visible; }
+    .badge { display: inline-block; border: 1px solid #18210c; border-radius: 24px; padding: 9px 12px; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; }
+    .pause h2 { font-size: clamp(40px, 10vw, 54px); line-height: 1.04; letter-spacing: -2px; margin: 26px 0; }
+    .pause p { font-size: 18px; line-height: 1.5; max-width: 300px; }
+    .pause small { display: block; margin-top: 28px; font-size: 13px; }
+  </style>
+</head>
+<body>
+  <main>
+    <header id="header"><strong>Instagram</strong><span>Reels</span></header>
+    <div id="feed" tabindex="0" aria-label="Reels feed. Scroll or use arrow keys to explore three Reels and a pause cue.">
+      <section class="reel one" aria-label="Reel 1 of 3">
+        <div class="art" aria-hidden="true"></div>
+        <div class="caption"><p>Reel 01 / 03</p><h1>Round and round.</h1><span>Scroll to the next Reel ↑</span></div>
+      </section>
+      <section class="reel two" aria-label="Reel 2 of 3">
+        <div class="art" aria-hidden="true"></div>
+        <div class="caption"><p>Reel 02 / 03</p><h1>A different angle.</h1><span>Scroll to the next Reel ↑</span></div>
+      </section>
+      <section class="reel three" aria-label="Reel 3 of 3">
+        <div class="art" aria-hidden="true"></div>
+        <div class="caption"><p>Reel 03 / 03</p><h1>One more shape.</h1><span>Scroll to the next Reel ↑</span></div>
+      </section>
+      <section class="pause" id="pause" aria-labelledby="pause-title">
+        <div class="pause-content">
+          <span class="badge">AI pause · demo</span>
+          <h2 id="pause-title">Do you want<br>to continue?</h2>
+          <p>You’ve reached the end of three Reels. Take a moment to choose what you want to do next.</p>
+          <small>A moment for a conscious decision.</small>
+        </div>
+      </section>
+    </div>
+  </main>
+  <script>
+    // This fixed rule simulates an AI cue. It does not detect addiction.
+    const feed = document.getElementById('feed');
+    const pause = document.getElementById('pause');
+    const header = document.getElementById('header');
+
+    function updateCue() {
+      // Reveal the cue as the user scrolls past the third Reel.
+      const enteringFourth = feed.scrollTop + feed.clientHeight > pause.offsetTop + 1;
+      pause.classList.toggle('visible', enteringFourth);
+      header.hidden = enteringFourth;
+      header.style.display = enteringFourth ? 'none' : 'flex';
+    }
+
+    feed.addEventListener('scroll', updateCue);
+    window.addEventListener('resize', updateCue);
+    updateCue();
+  </script>
+</body>
+</html>
